@@ -1,28 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SimpleCalculator
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (TryParseInputs(out double num1, out double num2))
+            {
+                txtResult.Text = $"Результат: {num1 + num2}";
+            }
+        }
+
+        private void Subtract_Click(object sender, RoutedEventArgs e)
+        {
+            if (TryParseInputs(out double num1, out double num2))
+            {
+                txtResult.Text = $"Результат: {num1 - num2}";
+            }
+        }
+
+        private void Multiply_Click(object sender, RoutedEventArgs e)
+        {
+            if (TryParseInputs(out double num1, out double num2))
+            {
+                txtResult.Text = $"Результат: {num1 * num2}";
+            }
+        }
+
+        private void Divide_Click(object sender, RoutedEventArgs e)
+        {
+            if (TryParseInputs(out double num1, out double num2))
+            {
+                if (num2 != 0)
+                {
+                    txtResult.Text = $"Результат: {num1 / num2}";
+                }
+                else
+                {
+                    MessageBox.Show("Деление на ноль невозможно!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
+        private bool TryParseInputs(out double num1, out double num2)
+        {
+            num1 = 0; // Инициализация переменной num1
+            num2 = 0; // Инициализация переменной num2
+
+            bool isValid = double.TryParse(txtFirstNumber.Text, out num1) && double.TryParse(txtSecondNumber.Text, out num2);
+            if (!isValid)
+            {
+                MessageBox.Show("Введите корректные числа!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtResult.Text = string.Empty;
+            }
+            return isValid;
+        }
+
     }
 }
